@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Masala Voice | Independent Student Press • Ndola</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Serif headline font & clean body typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            masala: {
+              navy: '#0f172a',
+              gold: '#d97706',
+              goldLight: '#fef3c7',
+              blue: '#1e3a8a',
+              emerald: '#059669',
+              paper: '#faf9f6'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #334155;
+    }
+    .font-newspaper {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- TOP ANNOUNCEMENT TICKER BANNER -->
+  <div class="bg-masala-navy text-white text-xs md:text-sm py-2 px-4 shadow-sm">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+      <div class="flex items-center space-x-2 truncate">
+        <span class="bg-amber-600 text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded tracking-wider">Independent Press</span>
+        <span class="truncate">📍 The Masala Voice • Unofficial & Autonomous Student Media of Masala Secondary</span>
+      </div>
+      <div class="flex items-center space-x-4 text-xs text-slate-300">
+        <span id="firestore-status" class="flex items-center gap-1.5 text-emerald-400 font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Cloud Live
+        </span>
+        <span><i class="fa-solid fa-location-dot text-amber-400 mr-1"></i> Ndola, Zambia</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN NAVIGATION HEADER -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- School Crest & Title -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('lobby')">
+          <div class="w-12 h-12 bg-gradient-to-tr from-blue-900 to-amber-600 rounded-xl flex items-center justify-center text-white shadow-md">
+            <i class="fa-solid fa-newspaper text-2xl"></i>
+          </div>
+          <div>
+            <span class="text-xl sm:text-2xl font-bold font-newspaper tracking-tight text-slate-900 block leading-none">The Masala Voice</span>
+            <span class="text-[11px] uppercase tracking-widest text-amber-700 font-extrabold block mt-1">Masala Secondary Student Paper • Ndola</span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Tabs -->
+        <nav class="hidden md:flex space-x-1 lg:space-x-2">
+          <button onclick="switchTab('lobby')" id="nav-lobby" class="nav-btn bg-slate-100 text-blue-900 font-bold px-3 py-2 rounded-lg text-sm transition-colors">
+            <i class="fa-solid fa-landmark mr-1.5"></i> Lobby
+          </button>
+          <button onclick="switchTab('newspaper')" id="nav-newspaper" class="nav-btn text-slate-600 hover:bg-slate-100 px-3 py-2 rounded-lg text-sm transition-colors">
+            <i class="fa-solid fa-newspaper mr-1.5"></i> Newspaper Feed
+          </button>
+          <button onclick="switchTab('multimedia')" id="nav-multimedia" class="nav-btn text-slate-600 hover:bg-slate-100 px-3 py-2 rounded-lg text-sm transition-colors">
+            <i class="fa-solid fa-photo-film mr-1.5"></i> Photos & Videos
+          </button>
+          <button onclick="switchTab('submit')" id="nav-submit" class="nav-btn text-slate-600 hover:bg-slate-100 px-3 py-2 rounded-lg text-sm transition-colors">
+            <i class="fa-solid fa-pen-nib mr-1.5"></i> Submit Story
+          </button>
+          <button onclick="switchTab('editor')" id="nav-editor" class="nav-btn text-slate-600 hover:bg-slate-100 px-3 py-2 rounded-lg text-sm transition-colors">
+            <i class="fa-solid fa-sliders mr-1.5"></i> Student Editor
+          </button>
+        </nav>
+
+        <!-- Right Action Button -->
+        <div class="flex items-center space-x-3">
+          <button onclick="switchTab('submit')" class="hidden sm:inline-flex items-center bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-xs transition-all">
+            <i class="fa-solid fa-plus mr-1.5"></i> Write Article
+          </button>
+          <button onclick="toggleMobileMenu()" class="md:hidden text-slate-700 p-2 text-xl focus:outline-none">
+            <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
+      <button onclick="switchTab('lobby'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-slate-700 font-medium hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-landmark w-6 text-amber-700"></i> Lobby
+      </button>
+      <button onclick="switchTab('newspaper'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-slate-700 font-medium hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-newspaper w-6 text-amber-700"></i> Newspaper Feed
+      </button>
+      <button onclick="switchTab('multimedia'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-slate-700 font-medium hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-photo-film w-6 text-amber-700"></i> Photos & Videos
+      </button>
+      <button onclick="switchTab('submit'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-slate-700 font-medium hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-pen-nib w-6 text-amber-700"></i> Submit Story
+      </button>
+      <button onclick="switchTab('editor'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md text-slate-700 font-medium hover:bg-slate-100 flex items-center">
+        <i class="fa-solid fa-sliders w-6 text-amber-700"></i> Student Editor Desk
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2"></div>
+
+    <!-- ========================================== -->
+    <!-- 1. SCHOOL LOBBY / PORTAL HOME              -->
+    <!-- ========================================== -->
+    <section id="sec-lobby" class="tab-content space-y-8">
+      
+      <!-- HERO BANNER -->
+      <div class="relative bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-3xl overflow-hidden shadow-2xl text-white p-8 md:p-12 border border-slate-800">
+        <div class="relative z-10 max-w-3xl">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold uppercase tracking-wider mb-4">
+            <i class="fa-solid fa-graduation-cap"></i> Masala Secondary School • Student Run
+          </span>
+          <h1 class="text-3xl md:text-5xl font-bold font-newspaper leading-tight mb-4">
+            Unfiltered Stories & Campus News
+          </h1>
+          <p class="text-slate-300 text-base md:text-lg mb-8 leading-relaxed">
+            Welcome to the independent digital newspaper hosted by students of Masala Secondary School. Read reports on JETS competitions, sports clashes, creative writing, and campus voices.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <button onclick="switchTab('newspaper')" class="bg-amber-600 hover:bg-amber-500 text-white px-6 py-3 rounded-xl font-bold shadow-md transition-all flex items-center">
+              <i class="fa-solid fa-book-open mr-2"></i> Read Latest Articles
+            </button>
+            <button onclick="switchTab('submit')" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-6 py-3 rounded-xl font-semibold backdrop-blur-xs transition-all flex items-center">
+              <i class="fa-solid fa-pen-fancy mr-2"></i> Publish Your Story
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOBBY STATS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-newspaper"></i>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-slate-900" id="stat-published">0</p>
+            <p class="text-xs text-slate-500 uppercase font-semibold">Published Articles</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 bg-blue-100 text-blue-800 rounded-xl flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-slate-900">Instant</p>
+            <p class="text-xs text-slate-500 uppercase font-semibold">Live Publishing</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-photo-film"></i>
+          </div>
+          <div>
+            <p class="text-2xl font-bold text-slate-900" id="stat-media">0</p>
+            <p class="text-xs text-slate-500 uppercase font-semibold">Photos & Videos</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div>
+            <p class="text-xl font-bold text-slate-900">Masala</p>
+            <p class="text-xs text-slate-500 uppercase font-semibold">Ndola, Copperbelt</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEATURED HEADLINES PREVIEW -->
+      <div>
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold font-newspaper text-slate-900">Featured Masala Headlines</h2>
+          <button onclick="switchTab('newspaper')" class="text-amber-700 hover:text-amber-800 text-sm font-semibold flex items-center gap-1">
+            Browse All <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+        <div id="lobby-headline-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. DIGITAL NEWSPAPER FEED                  -->
+    <!-- ========================================== -->
+    <section id="sec-newspaper" class="tab-content hidden space-y-6">
+      
+      <div class="border-b-2 border-slate-800 pb-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+          <div>
+            <div class="text-xs uppercase tracking-widest text-amber-700 font-extrabold mb-1">Masala Secondary Press</div>
+            <h1 class="text-3xl md:text-4xl font-bold font-newspaper text-slate-900">The Student Feed</h1>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="w-full md:w-72">
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-xs"></i>
+              <input type="text" id="search-input" oninput="renderNewspaperGrid()" placeholder="Search articles or writers..." class="w-full pl-9 pr-3 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex items-center gap-2 overflow-x-auto pt-5 pb-1 no-scrollbar">
+          <button onclick="setCategory('All')" class="cat-filter-btn bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">All Stories</button>
+          <button onclick="setCategory('Academics')" class="cat-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">📚 Academics & JETS</button>
+          <button onclick="setCategory('Sports')" class="cat-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">⚽ Sports</button>
+          <button onclick="setCategory('Arts & Culture')" class="cat-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">🎨 Arts & Creative</button>
+          <button onclick="setCategory('Campus Events')" class="cat-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">🏫 Campus Life</button>
+          <button onclick="setCategory('Opinion')" class="cat-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap">💬 Student Voices</button>
+        </div>
+      </div>
+
+      <!-- NEWSPAPER GRID -->
+      <div id="newspaper-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div id="lead-story-container" class="lg:col-span-2 space-y-6"></div>
+        <div id="sidebar-stories-container" class="space-y-6 border-t lg:border-t-0 lg:border-l border-slate-200 lg:pl-8 pt-6 lg:pt-0"></div>
+      </div>
+
+      <div id="no-results" class="hidden text-center py-12 bg-white rounded-2xl border border-slate-200">
+        <i class="fa-solid fa-newspaper text-4xl text-slate-300 mb-3"></i>
+        <h3 class="text-lg font-bold text-slate-700">No articles found</h3>
+        <p class="text-sm text-slate-500">Be the first student to publish an article for this section!</p>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. MULTIMEDIA GALLERY (PHOTOS & VIDEOS)    -->
+    <!-- ========================================== -->
+    <section id="sec-multimedia" class="tab-content hidden space-y-6">
+      <div class="border-b border-slate-200 pb-4 flex justify-between items-end">
+        <div>
+          <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Student Visuals</span>
+          <h2 class="text-3xl font-bold font-newspaper text-slate-900">Photos & Video Stories</h2>
+        </div>
+      </div>
+
+      <div id="media-gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. WRITER SUBMISSION DESK                  -->
+    <!-- ========================================== -->
+    <section id="sec-submit" class="tab-content hidden max-w-3xl mx-auto">
+      
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8">
+        <div class="border-b border-slate-200 pb-5 mb-6">
+          <span class="text-xs font-bold text-amber-700 uppercase tracking-wider"><i class="fa-solid fa-pen-fancy mr-1"></i> Student Writer Desk</span>
+          <h2 class="text-2xl sm:text-3xl font-bold font-newspaper text-slate-900">Publish a Story on The Masala Voice</h2>
+          <p class="text-slate-600 text-sm mt-1">Share your article, poem, match report, or photo story directly with the Masala Secondary School student community.</p>
+        </div>
+
+        <form id="submission-form" onsubmit="handleArticleSubmit(event)" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Your Name / Pseudonym *</label>
+              <input type="text" id="form-author" required placeholder="e.g. Kondwani Phiri" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Grade / Class *</label>
+              <select id="form-grade" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none bg-white">
+                <option value="">Select Grade</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 9">Grade 9</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Category *</label>
+            <select id="form-category" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none bg-white">
+              <option value="Academics">Academics & JETS</option>
+              <option value="Sports">Sports & Athletics</option>
+              <option value="Arts & Culture">Arts & Creative Writing</option>
+              <option value="Campus Events">Campus Life</option>
+              <option value="Opinion">Student Voices / Opinion</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Headline / Title *</label>
+            <input type="text" id="form-title" required placeholder="Main headline of your story..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-newspaper text-base font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Short Excerpt / Teaser *</label>
+            <input type="text" id="form-summary" required placeholder="A 1-2 sentence preview for the newspaper feed..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          </div>
+
+          <!-- Cover Image Photo URL -->
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-slate-700 uppercase">Cover Photo URL (Optional)</label>
+            <input type="url" id="form-image-url" placeholder="https://images.unsplash.com/photo-..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            <p class="text-[11px] text-slate-500">Paste any image link. Leave blank to auto-assign a relevant photo.</p>
+          </div>
+
+          <!-- Video Embed URL -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Video Link (YouTube or MP4 Link - Optional)</label>
+            <input type="url" id="form-video-url" placeholder="https://www.youtube.com/watch?v=..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Article Body *</label>
+            <textarea id="form-content" rows="8" required placeholder="Write your full story here..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-serif leading-relaxed focus:ring-2 focus:ring-amber-500 focus:outline-none"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl shadow-md transition-all flex items-center justify-center">
+            <i class="fa-solid fa-paper-plane mr-2"></i> Publish Article Live
+          </button>
+        </form>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. STUDENT EDITOR MANAGEMENT DESK         -->
+    <!-- ========================================== -->
+    <section id="sec-editor" class="tab-content hidden space-y-6">
+      
+      <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-md border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="text-xl font-bold font-newspaper flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-amber-500"></i> Student Editor Desk
+          </h2>
+          <p class="text-xs text-slate-300 mt-1">
+            Manage published articles, remove spam, or edit headlines. Key for student editors running the paper.
+          </p>
+        </div>
+        <div id="editor-auth-btn-container">
+          <button onclick="promptEditorPin()" id="editor-login-btn" class="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all">
+            <i class="fa-solid fa-key mr-1"></i> Editor PIN (Demo: 1234)
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+          <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider">All Published Stories</h3>
+          <span id="editor-count-tag" class="bg-slate-900 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">0 Stories</span>
+        </div>
+
+        <div id="editor-articles-container" class="divide-y divide-slate-200">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- FULL ARTICLE READER & COMMENT MODAL        -->
+  <!-- ========================================== -->
+  <div id="article-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200 my-auto relative">
+      
+      <button onclick="closeArticleModal()" class="sticky top-4 right-4 ml-auto bg-slate-900 text-white hover:bg-slate-800 rounded-full w-9 h-9 flex items-center justify-center shadow-lg transition-colors z-20">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="modal-article-body" class="p-6 sm:p-10 pt-2 space-y-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-white border-t border-slate-800 mt-16 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+      <div>
+        <span class="font-bold text-white text-sm block font-newspaper">The Masala Voice</span>
+        <span>Masala Secondary School • Ndola, Zambia</span>
+      </div>
+      <div>
+        <span>Student-Operated Digital Newsroom</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FIREBASE ENGINE & SCRIPT LOGIC -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, doc, addDoc, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Setup Firebase Config
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'masala-student-voice';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+      apiKey: "demo-api-key",
+      authDomain: "demo.firebaseapp.com",
+      projectId: "demo-project",
+      storageBucket: "demo.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:demo"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Global state
+    window.db = db;
+    window.auth = auth;
+    window.appId = appId;
+    window.articles = [];
+    window.isEditorLoggedIn = false;
+    window.currentCategory = 'All';
+
+    async function initAuth() {
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+      } catch (e) {
+        console.warn("Auth initialization fallback:", e);
+      }
+    }
+
+    // Default Seed Stories for Masala Secondary School
+    const defaultArticles = [
+      {
+        title: "Masala Secondary JETS Innovation Squad Triumphs at Copperbelt Fair",
+        category: "Academics",
+        author: "Mwamba Chanda",
+        grade: "Grade 11B",
+        date: "Oct 28, 2026",
+        summary: "The JETS club created an automated solar drip-irrigation system designed for local Ndola farmers.",
+        content: "Masala Secondary School took center stage at the provincial JETS Fair in Kitwe as our Grade 11 innovation team secured 1st place overall in agricultural tech.\n\nThe project uses solar-powered moisture sensors to optimize water usage in vegetable crops. The team plans to demo the system to community gardens in Masala township next month.",
+        image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1000&q=80",
+        videoUrl: "",
+        comments: [
+          { name: "Kondwani", text: "Big up Masala Secondary! Proud of the team!", date: "Oct 28" }
+        ]
+      },
+      {
+        title: "Masala Football XI Defeats Rival High School in 2-1 Thriller",
+        category: "Sports",
+        author: "Bwalya Phiri",
+        grade: "Grade 12A",
+        date: "Oct 24, 2026",
+        summary: "A last-minute goal by Kelvin Mwale sealed a dramatic comeback victory on home grounds.",
+        content: "In front of an energetic home crowd at the Masala pitch, our senior football team delivered a stunning 2-1 comeback.\n\nAfter going down 1-0 in the first half, the team rallied together with intense pressure in the second half, scoring the winning header in the 88th minute.",
+        image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1000&q=80",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        comments: []
+      },
+      {
+        title: "Poetry Corner: Reflections on the Ndola Sun",
+        category: "Arts & Culture",
+        author: "Natasha Chisala",
+        grade: "Grade 10C",
+        date: "Oct 20, 2026",
+        summary: "An evocative poem describing youth and ambition in the heart of the Copperbelt.",
+        content: "The golden heat over Masala classroom roofs,\nWhere dreams take flight in notebooks and ink.\nWe step together into tomorrow,\nStronger than the copper forged in our soil.\n\nKeep writing, fellow students. Our voices matter.",
+        image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1000&q=80",
+        videoUrl: "",
+        comments: []
+      }
+    ];
+
+    // Realtime Listener for Articles
+    function listenToArticles() {
+      const publicCol = collection(db, 'artifacts', appId, 'public', 'data', 'articles');
+      
+      onSnapshot(publicCol, (snapshot) => {
+        const fetched = [];
+        snapshot.forEach(docSnap => {
+          fetched.push({ id: docSnap.id, ...docSnap.data() });
+        });
+
+        if (fetched.length === 0) {
+          defaultArticles.forEach(async (art) => {
+            await addDoc(publicCol, art);
+          });
+        } else {
+          window.articles = fetched;
+          renderLobbyHighlights();
+          renderNewspaperGrid();
+          renderMediaGallery();
+          renderEditorList();
+          updateStats();
+        }
+      }, (err) => {
+        console.error("Firestore listen error:", err);
+      });
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        listenToArticles();
+      }
+    });
+
+    initAuth();
+  </script>
+
+  <script>
+    // Tab Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-slate-100', 'text-blue-900', 'font-bold');
+        btn.classList.add('text-slate-600');
+      });
+
+      const targetSec = document.getElementById(`sec-${tabId}`);
+      if (targetSec) targetSec.classList.remove('hidden');
+
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-600');
+        activeNav.classList.add('bg-slate-100', 'text-blue-900', 'font-bold');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    function setCategory(cat) {
+      window.currentCategory = cat;
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        if (btn.innerText.includes(cat) || (cat === 'All' && btn.innerText.includes('All Stories'))) {
+          btn.classList.remove('bg-slate-100', 'text-slate-700');
+          btn.classList.add('bg-slate-900', 'text-white');
+        } else {
+          btn.classList.remove('bg-slate-900', 'text-white');
+          btn.classList.add('bg-slate-100', 'text-slate-700');
+        }
+      });
+      renderNewspaperGrid();
+    }
+
+    function updateStats() {
+      document.getElementById('stat-published').innerText = window.articles.length;
+      document.getElementById('stat-media').innerText = window.articles.filter(a => a.image || a.videoUrl).length;
+      document.getElementById('editor-count-tag').innerText = `${window.articles.length} Stories`;
+    }
+
+    // Render Lobby Highlights
+    function renderLobbyHighlights() {
+      const container = document.getElementById('lobby-headline-container');
+      container.innerHTML = '';
+
+      const topTwo = window.articles.slice(0, 2);
+
+      topTwo.forEach(art => {
+        container.innerHTML += `
+          <div onclick="openArticleModal('${art.id}')" class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col md:flex-row group">
+            <div class="md:w-2/5 h-44 md:h-auto overflow-hidden relative bg-slate-100">
+              <img src="${art.image || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <span class="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                ${art.category}
+              </span>
+            </div>
+            <div class="p-5 md:w-3/5 flex flex-col justify-between">
+              <div>
+                <h3 class="font-newspaper text-base font-bold text-slate-900 group-hover:text-amber-700 transition-colors line-clamp-2">
+                  ${art.title}
+                </h3>
+                <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">${art.summary}</p>
+              </div>
+              <div class="mt-4 pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between">
+                <span>By ${art.author} (${art.grade})</span>
+                <span>${art.date}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Render Newspaper Grid
+    function renderNewspaperGrid() {
+      const searchVal = document.getElementById('search-input').value.toLowerCase();
+
+      let filtered = window.articles.filter(art => {
+        const matchesCat = (window.currentCategory === 'All') || (art.category === window.currentCategory);
+        const matchesSearch = art.title.toLowerCase().includes(searchVal) || art.author.toLowerCase().includes(searchVal);
+        return matchesCat && matchesSearch;
+      });
+
+      const leadContainer = document.getElementById('lead-story-container');
+      const sidebarContainer = document.getElementById('sidebar-stories-container');
+      const noResults = document.getElementById('no-results');
+
+      leadContainer.innerHTML = '';
+      sidebarContainer.innerHTML = '';
+
+      if (filtered.length === 0) {
+        noResults.classList.remove('hidden');
+        return;
+      }
+      noResults.classList.add('hidden');
+
+      const lead = filtered[0];
+      const rest = filtered.slice(1);
+
+      // Lead Article
+      leadContainer.innerHTML = `
+        <div onclick="openArticleModal('${lead.id}')" class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg transition-all cursor-pointer group">
+          <div class="relative h-64 sm:h-80 overflow-hidden bg-slate-100">
+            <img src="${lead.image || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1000&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+              <span class="bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider mb-2 inline-block">
+                ${lead.category}
+              </span>
+              <h2 class="font-newspaper text-2xl sm:text-3xl font-bold leading-tight group-hover:text-amber-300 transition-colors">
+                ${lead.title}
+              </h2>
+            </div>
+          </div>
+          <div class="p-6">
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">${lead.summary}</p>
+            <div class="flex items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-100">
+              <span>By <strong>${lead.author} (${lead.grade})</strong></span>
+              <span><i class="fa-solid fa-clock mr-1"></i> ${lead.date}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Sidebar Articles
+      rest.forEach(art => {
+        sidebarContainer.innerHTML += `
+          <div onclick="openArticleModal('${art.id}')" class="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-all cursor-pointer group">
+            <span class="text-[10px] font-bold text-amber-700 uppercase tracking-wider block mb-1">${art.category}</span>
+            <h3 class="font-newspaper font-bold text-slate-900 group-hover:text-amber-700 text-sm mb-2 leading-snug">
+              ${art.title}
+            </h3>
+            <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${art.summary}</p>
+            <div class="mt-3 pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between">
+              <span>By ${art.author}</span>
+              <span>${art.date}</span>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Render Media Gallery
+    function renderMediaGallery() {
+      const container = document.getElementById('media-gallery-grid');
+      container.innerHTML = '';
+
+      const mediaItems = window.articles.filter(a => a.image || a.videoUrl);
+
+      if (mediaItems.length === 0) {
+        container.innerHTML = `<p class="col-span-full text-center text-slate-500 py-8 text-sm">No photos or videos uploaded yet.</p>`;
+        return;
+      }
+
+      mediaItems.forEach(art => {
+        container.innerHTML += `
+          <div onclick="openArticleModal('${art.id}')" class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md cursor-pointer group">
+            <div class="h-48 relative overflow-hidden bg-slate-100">
+              <img src="${art.image || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              ${art.videoUrl ? `
+                <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center">
+                  <div class="w-12 h-12 bg-amber-600 text-white rounded-full flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-play ml-1"></i>
+                  </div>
+                </div>
+              ` : ''}
+              <span class="absolute bottom-2 left-2 bg-slate-900/80 text-white text-[10px] px-2 py-0.5 rounded font-bold">
+                ${art.videoUrl ? '📹 Video Story' : '📷 Photo Story'}
+              </span>
+            </div>
+            <div class="p-4">
+              <h4 class="font-newspaper font-bold text-slate-900 text-sm group-hover:text-amber-700 leading-snug">${art.title}</h4>
+              <p class="text-xs text-slate-500 mt-2">By ${art.author}</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Render Student Editor Desk List
+    function renderEditorList() {
+      const container = document.getElementById('editor-articles-container');
+      container.innerHTML = '';
+
+      window.articles.forEach(item => {
+        container.innerHTML += `
+          <div class="p-4 sm:p-6 flex flex-col md:flex-row justify-between gap-4">
+            <div class="space-y-1 max-w-2xl">
+              <span class="text-[10px] font-bold text-amber-700 uppercase tracking-wider">${item.category}</span>
+              <h3 class="text-base font-bold font-newspaper text-slate-900">${item.title}</h3>
+              <div class="text-xs text-slate-500">
+                <span>By <strong>${item.author} (${item.grade})</strong> • ${item.date}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="openArticleModal('${item.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">
+                <i class="fa-solid fa-eye mr-1"></i> View
+              </button>
+              <button onclick="deleteArticle('${item.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">
+                <i class="fa-solid fa-trash mr-1"></i> Delete
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Direct Article Submission
+    async function handleArticleSubmit(event) {
+      event.preventDefault();
+
+      const author = document.getElementById('form-author').value.trim();
+      const grade = document.getElementById('form-grade').value;
+      const category = document.getElementById('form-category').value;
+      const title = document.getElementById('form-title').value.trim();
+      const summary = document.getElementById('form-summary').value.trim();
+      const content = document.getElementById('form-content').value.trim();
+      const customImg = document.getElementById('form-image-url').value.trim();
+      const videoUrl = document.getElementById('form-video-url').value.trim();
+
+      const newArticle = {
+        title,
+        category,
+        author,
+        grade,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        summary,
+        content,
+        image: customImg || "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1000&q=80",
+        videoUrl: videoUrl,
+        comments: []
+      };
+
+      try {
+        const publicCol = collection(window.db, 'artifacts', window.appId, 'public', 'data', 'articles');
+        await addDoc(publicCol, newArticle);
+        
+        document.getElementById('submission-form').reset();
+        showToast("Story published directly to The Masala Voice feed!", "success");
+        setTimeout(() => switchTab('newspaper'), 800);
+      } catch (e) {
+        showToast("Error publishing story. Please try again.", "error");
+      }
+    }
+
+    // Delete Article via Editor
+    async function deleteArticle(id) {
+      if (!window.isEditorLoggedIn) {
+        promptEditorPin();
+        return;
+      }
+
+      try {
+        const articleRef = doc(window.db, 'artifacts', window.appId, 'public', 'data', 'articles', id);
+        await deleteDoc(articleRef);
+        showToast("Article deleted.", "info");
+      } catch (e) {
+        showToast("Error deleting item.", "error");
+      }
+    }
+
+    // Editor PIN Check
+    function promptEditorPin() {
+      const pin = prompt("Enter Student Editor Passkey (Demo PIN: 1234):");
+      if (pin === "1234") {
+        window.isEditorLoggedIn = true;
+        document.getElementById('editor-auth-btn-container').innerHTML = `
+          <span class="text-xs bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-lg border border-emerald-500/30 font-bold">
+            <i class="fa-solid fa-lock-open mr-1"></i> Editor Mode Active
+          </span>
+        `;
+        showToast("Student Editor Mode Unlocked!", "success");
+      } else if (pin !== null) {
+        showToast("Incorrect PIN. Try 1234", "error");
+      }
+    }
+
+    // Article Reader Modal & Live Comments
+    function openArticleModal(id) {
+      const art = window.articles.find(a => a.id === id);
+      if (!art) return;
+
+      const modalBody = document.getElementById('modal-article-body');
+      
+      let videoEmbedHtml = '';
+      if (art.videoUrl) {
+        if (art.videoUrl.includes('youtube.com') || art.videoUrl.includes('youtu.be')) {
+          const ytId = art.videoUrl.includes('v=') ? art.videoUrl.split('v=')[1].split('&')[0] : art.videoUrl.split('/').pop();
+          videoEmbedHtml = `
+            <div class="aspect-video w-full rounded-2xl overflow-hidden my-4 shadow-md">
+              <iframe class="w-full h-full" src="https://www.youtube.com/embed/${ytId}" frameborder="0" allowfullscreen></iframe>
+            </div>
+          `;
+        } else {
+          videoEmbedHtml = `
+            <div class="w-full rounded-2xl overflow-hidden my-4 shadow-md bg-black">
+              <video controls class="w-full max-h-96">
+                <source src="${art.videoUrl}" type="video/mp4">
+              </video>
+            </div>
+          `;
+        }
+      }
+
+      modalBody.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-md uppercase">
+              ${art.category}
+            </span>
+            <span class="text-xs text-slate-500">
+              Published by Masala Student
+            </span>
+          </div>
+
+          <h1 class="text-2xl sm:text-4xl font-bold font-newspaper text-slate-900 leading-tight">
+            ${art.title}
+          </h1>
+
+          <div class="flex justify-between items-center text-xs text-slate-500 py-3 border-y border-slate-200">
+            <span>By <strong>${art.author} (${art.grade})</strong></span>
+            <span>${art.date}</span>
+          </div>
+
+          ${art.image ? `
+            <div class="rounded-2xl overflow-hidden my-4 max-h-96">
+              <img src="${art.image}" class="w-full h-full object-cover">
+            </div>
+          ` : ''}
+
+          ${videoEmbedHtml}
+
+          <p class="text-base font-serif italic text-slate-700 font-medium leading-relaxed border-l-4 border-amber-600 pl-4 py-1 bg-slate-50 rounded-r-lg">
+            "${art.summary}"
+          </p>
+
+          <div class="text-slate-800 font-serif text-base sm:text-lg leading-relaxed space-y-4 pt-2">
+            ${art.content.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+          </div>
+
+          <!-- Comments Section -->
+          <div class="mt-8 pt-6 border-t border-slate-200 space-y-4">
+            <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wider">Student Comments (${art.comments ? art.comments.length : 0})</h3>
+            
+            <div id="comments-list" class="space-y-2 max-h-48 overflow-y-auto">
+              ${(art.comments && art.comments.length > 0) ? art.comments.map(c => `
+                <div class="bg-slate-50 p-3 rounded-xl text-xs">
+                  <div class="font-bold text-slate-800">${c.name} <span class="text-[10px] font-normal text-slate-400">• ${c.date}</span></div>
+                  <p class="text-slate-600 mt-0.5">${c.text}</p>
+                </div>
+              `).join('') : '<p class="text-xs text-slate-400 italic">No comments yet. Leave a thought!</p>'}
+            </div>
+
+            <div class="flex gap-2 pt-2">
+              <input type="text" id="comment-input" placeholder="Write a comment..." class="flex-grow px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              <button onclick="postComment('${art.id}')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 rounded-xl text-xs">Post</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('article-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    async function postComment(artId) {
+      const input = document.getElementById('comment-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const art = window.articles.find(a => a.id === artId);
+      if (!art) return;
+
+      const updatedComments = art.comments || [];
+      updatedComments.push({
+        name: "Masala Student",
+        text: text,
+        date: "Just now"
+      });
+
+      try {
+        const articleRef = doc(window.db, 'artifacts', window.appId, 'public', 'data', 'articles', artId);
+        await updateDoc(articleRef, { comments: updatedComments });
+        input.value = '';
+        openArticleModal(artId);
+        showToast("Comment added!", "success");
+      } catch (e) {
+        showToast("Could not post comment.", "error");
+      }
+    }
+
+    function closeArticleModal() {
+      document.getElementById('article-modal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    function showToast(msg, type = "info") {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium flex items-center space-x-2 transition-all duration-300 opacity-90`;
+      toast.innerHTML = `<i class="fa-solid fa-circle-info text-amber-400"></i><span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Export to global scope
+    window.switchTab = switchTab;
+    window.toggleMobileMenu = toggleMobileMenu;
+    window.setCategory = setCategory;
+    window.handleArticleSubmit = handleArticleSubmit;
+    window.deleteArticle = deleteArticle;
+    window.promptEditorPin = promptEditorPin;
+    window.openArticleModal = openArticleModal;
+    window.closeArticleModal = closeArticleModal;
+    window.postComment = postComment;
+  </script>
+</body>
+</html>
